@@ -69,7 +69,7 @@ This will encrypt the variables you defined just above so the `couchdb/vault.yml
 
 ### Installing CouchDB
 
-This Ansible playbook installs CouchDB and sets it up with the configuration defined at `couchdb/templates/local.ini.j2` by using the variables defined above.
+This Ansible playbook installs [CouchDB](https://couchdb.apache.org) and sets it up with the configuration defined at `couchdb/templates/local.ini.j2` by using the variables defined above.
 
 ```
 ansible-playbook -i hosts couchdb/main.yml --ask-vault-pass
