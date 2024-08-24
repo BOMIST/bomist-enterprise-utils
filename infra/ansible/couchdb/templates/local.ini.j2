@@ -1,0 +1,16 @@
+[admins]
+{{ couchdb_user }} = {{ couchdb_password }}
+
+[chttpd]
+authentication_handlers = {chttpd_auth, cookie_authentication_handler}, {chttpd_auth, jwt_authentication_handler}, {chttpd_auth, default_authentication_handler}
+
+[jwt_auth]
+required_claims = exp
+
+[jwt_keys]
+hmac:_default = {{ couchdb_jwt_secret_b64 }}
+
+[smoosh.overnight_channel]
+from = 02:00
+to = 07:00
+strict_window = true

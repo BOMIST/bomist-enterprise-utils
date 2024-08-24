@@ -1,0 +1,3 @@
+couchdb_user=
+couchdb_password=
+couchdb_jwt_secret_b64=

@@ -1,0 +1,4 @@
+*.retry
+.env*
+node_modules
+.vscode

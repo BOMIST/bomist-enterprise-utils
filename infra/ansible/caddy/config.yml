@@ -1,0 +1,10 @@
+- hosts: couchdb
+  tasks:
+    - name: "Copy Caddyfile"
+      template:
+        src: Caddyfile.j2
+        dest: /etc/caddy/Caddyfile
+    - name: Restart "caddy" service
+      systemd:
+        name: caddy
+        state: restarted

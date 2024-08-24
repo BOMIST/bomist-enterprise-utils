@@ -1,0 +1,13 @@
+- hosts: couchdb
+  vars_files:
+    - vault.yml
+  tasks:
+    - name: Install CouchDB configuration
+      template:
+        src: local.ini.j2
+        dest: /opt/couchdb/etc/local.d/local.ini
+        mode: "644"
+    - name: Restart "couchdb" service
+      systemd:
+        name: couchdb
+        state: restarted

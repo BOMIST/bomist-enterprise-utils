@@ -1,0 +1,74 @@
+- hosts: couchdb
+  gather_facts: true
+  gather_subset:
+    - "!env"
+    - "!all"
+    - "!min"
+    - lsb
+  vars_files:
+    - vault.yml
+  vars:
+    apt_env:
+      DEBIAN_FRONTEND: noninteractive
+  tasks:
+    - name: Ensure dependencies are installed
+      apt:
+        name:
+          - debconf
+          - curl
+          - apt-transport-https
+          - gnupg
+
+    - name: "Install CouchDB archive keyring"
+      shell: curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1
+
+    - name: Create apt sources for couchdb
+      template:
+        src: couchdb.list.j2
+        dest: /etc/apt/sources.list.d/couchdb.list
+
+    - name: Update apt to ensure sources are present
+      environment: "{{ apt_env }}"
+      apt:
+        update-cache: true
+
+    - name: debconf mode
+      ansible.builtin.debconf:
+        name: couchdb
+        question: couchdb/mode
+        value: standalone
+        vtype: select
+    - name: debconf bindaddresss
+      ansible.builtin.debconf:
+        name: couchdb
+        question: couchdb/bindaddress
+        value: "0.0.0.0"
+        vtype: string
+    - name: debconf adminpass
+      ansible.builtin.debconf:
+        name: couchdb
+        question: f
+        value: "{{ couchdb_password }}"
+        vtype: password
+    - name: debconf cookie
+      ansible.builtin.debconf:
+        name: couchdb
+        question: couchdb/cookie
+        value: 1234
+        vtype: string
+
+    - name: adminpass again
+      ansible.builtin.debconf:
+        name: couchdb
+        question: couchdb/adminpass_again
+        value: "{{ couchdb_password }}"
+        vtype: password
+
+    - name: Ensure "couchdb" is latest version, bypass interactive install
+      environment: "{{ apt_env }}"
+      apt: name=couchdb state=latest
+
+    - name: Ensure the service is enabled on boot
+      systemd:
+        name: couchdb
+        enabled: true

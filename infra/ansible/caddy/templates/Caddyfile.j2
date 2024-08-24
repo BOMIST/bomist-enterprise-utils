@@ -1,0 +1,5 @@
+{{ domain | default(':80') }}
+
+reverse_proxy {
+    to :{{ port | default('5984')}}
+}
