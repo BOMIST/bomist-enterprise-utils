@@ -8,7 +8,7 @@ If you don't have it yet, start by [installing Ansible](https://docs.ansible.com
 
 This guide assumes your server runs **Ubuntu 22.04**.
 
-#### Adding an SSH key to your server
+### Adding an SSH key to your server
 
 In order for Ansible to be able to communicate with your server, your host machine (where you run Ansible from) should have an SSH key and the corresponding public part should be added to your server.
 
@@ -34,7 +34,7 @@ ssh root@<server_ip>
 
 _Side note_: creating a server and copying your local SSH public key into it could also be automated by using a tool such as [Terraform](https://www.terraform.io). However, since this is probably something you won't need to do often, we leave it outside the scope of this guide.
 
-#### Defining variables
+### Defining variables
 
 Make sure you are at the `infra/ansible` directory of this repository.
 
@@ -67,7 +67,7 @@ ansible-vault encrypt couchdb/vault.yml
 
 This will encrypt the variables you defined just above so the `couchdb/vault.yml` file can be safely shared.
 
-#### Installing CouchDB
+### Installing CouchDB
 
 This Ansible playbook installs CouchDB and sets it up with the configuration defined at `couchdb/templates/local.ini.j2` by using the variables defined above.
 
@@ -75,7 +75,7 @@ This Ansible playbook installs CouchDB and sets it up with the configuration def
 ansible-playbook -i hosts couchdb/main.yml --ask-vault-pass
 ```
 
-#### Enabling HTTPS
+### Enabling HTTPS
 
 This requires having a public domain. Once you have one, make sure to create a DNS `A record` so it points to your server's IP.
 
@@ -92,6 +92,6 @@ After this, the database should be available at `https://yourdomain.com`.
 
 This ansible playbook can also be used to enable HTTPS on any remote server, not necessarily for the CouchDB (for example, the server the Enterprise API is running on). Just make sure you pass the appropriate `domain` and `port`.
 
-#### Safety considerations
+### Safety considerations
 
 If you run CouchDB on the cloud, consider having a firewall allowing traffic only on ports `80` and `443` so only HTTP and HTTPS traffic is allowed. Caddy, mentioned above, automatically redirects HTTP traffic to HTTPS.
