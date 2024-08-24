@@ -77,12 +77,12 @@ ansible-playbook -i hosts couchdb/main.yml --ask-vault-pass
 
 ### Enabling HTTPS
 
-This requires having a public domain. Once you have one, make sure to create a DNS `A record` so it points to your server's IP.
+This requires having a public domain. Once you have one, make sure to create a DNS `A record` so the domain, or a sub-domain, points to your server's IP.
 
-[Caddy](https://caddyserver.com) is used here for [automatic HTTPS](https://caddyserver.com/docs/automatic-https).
+[Caddy](https://caddyserver.com) is used here for [automatic HTTPS](https://caddyserver.com/docs/automatic-https) and as a reverse proxy redirecting traffic to CouchDB.
 This Ansible playbook installs Caddy and sets it up as a reverse proxy.
 
-Replace the `yourdomain.com` below with your actual domain.
+Replace `yourdomain.com` with your actual domain (or a sub-domain, for example `couch.yourdomain.com`).
 
 ```
 ansible-playbook -i hosts caddy/main.yml --extra-vars "domain=yourdomain.com port=5984"
@@ -94,4 +94,10 @@ This ansible playbook can also be used to enable HTTPS on any remote server, not
 
 ### Safety considerations
 
-If you run CouchDB on the cloud, consider having a firewall allowing traffic only on ports `80` and `443` so only HTTP and HTTPS traffic is allowed. Caddy, mentioned above, automatically redirects HTTP traffic to HTTPS.
+If you run CouchDB on the cloud, make sure HTTPS is enabled and consider having a firewall allowing traffic only on ports `80` and `443` so only HTTP and HTTPS traffic is allowed. Caddy, mentioned above, automatically redirects HTTP traffic to HTTPS.
+
+### Fauxton: the CouchDB dashboard
+
+CouchDB comes with a web-based interface called [Fauxton](https://couchdb.apache.org/fauxton-visual-guide/index.html#using-fauxton) that allows you to easily interact with the database, namely creating, updating, deleting and viewing documents.
+
+Once CouchDB is running, Fauxton becomes available at `<couchdb_url>/_utils`. For example, considering you have CouchDB running on https://couch.yourdomain.com, Fauxton would be available at https://couch.yourdomain.com/_utils.
