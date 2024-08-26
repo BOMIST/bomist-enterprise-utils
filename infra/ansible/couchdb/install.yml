@@ -11,6 +11,8 @@
     apt_env:
       DEBIAN_FRONTEND: noninteractive
   tasks:
+    - set_fact: os_version_codename={{ ansible_facts.lsb.codename }}
+
     - name: Ensure dependencies are installed
       apt:
         name:
