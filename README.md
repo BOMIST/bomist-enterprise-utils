@@ -82,7 +82,7 @@ This requires having a public domain. Once you have one, make sure to create a D
 [Caddy](https://caddyserver.com) is used here for [automatic HTTPS](https://caddyserver.com/docs/automatic-https) and as a reverse proxy redirecting traffic to CouchDB.
 This Ansible playbook installs Caddy and sets it up as a reverse proxy.
 
-Replace `yourdomain.com` with your actual domain (or a sub-domain, for example `couch.yourdomain.com`).
+Replace `yourdomain.com` with your actual domain (or a sub-domain, for example `couch.yourdomain.com`). Notice that `port` is set to `5984` as that's the default port CouchDB runs on.
 
 ```
 ansible-playbook -i hosts caddy/main.yml --extra-vars "domain=yourdomain.com port=5984"
@@ -94,7 +94,7 @@ This ansible playbook can also be used to enable HTTPS on any remote server, not
 
 ### Safety considerations
 
-If you run CouchDB on the cloud, make sure HTTPS is enabled and consider having a firewall allowing traffic only on ports `80` and `443` so only HTTP and HTTPS traffic is allowed. Caddy, mentioned above, automatically redirects HTTP traffic to HTTPS.
+If you run CouchDB on the cloud, make sure HTTPS is enabled and consider having a firewall allowing traffic only on ports `80`, `443` and `22` so only HTTP, HTTPS and SSH traffic is allowed. Caddy, mentioned above, automatically redirects HTTP traffic to HTTPS.
 
 ### Fauxton: the CouchDB dashboard
 
