@@ -8,6 +8,7 @@
           - apt-transport-https
           - gnupg2
           - curl
+        update_cache: true
 
     - name: Install Caddy keyring
       shell: curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg

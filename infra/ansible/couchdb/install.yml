@@ -20,6 +20,7 @@
           - curl
           - apt-transport-https
           - gnupg
+        update_cache: true
 
     - name: "Install CouchDB archive keyring"
       shell: curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1
